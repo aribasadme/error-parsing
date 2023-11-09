@@ -6,6 +6,7 @@ plugins:
 
 custom:
   logGroup: ${env:LOGGROUP}
+  snsARN: "arn:aws:sns:${self:provider.region}:${aws:accountId}:${self:service}-${self:provider.stage}-alerts-alarm"
   alerts:
     stages:
       - ${opt:stage, self:provider.stage}
@@ -17,7 +18,6 @@ custom:
             endpoint: ${env:EMAIL}
 
 
-
 provider:
   name: aws
   runtime: python3.10
@@ -25,7 +25,13 @@ provider:
   region: eu-west-3
   deploymentBucket:	sls-deployment-bucket-${env:CI_ENV}
   environment:
-    SNS_ARN: "arn:aws:sns:${self:provider.region}:${aws:accountId}:${self:service}-${self:provider.stage}-alerts-alarm"
+    SNS_ARN: ${self:custom.snsARN}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sns:Publish"
+      Resource:
+        - "${self:custom.snsARN}"
 
 functions:
   publish:
