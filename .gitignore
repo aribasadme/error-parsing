@@ -1,0 +1,9 @@
+# Environment
+venv/
+.env
+
+# Distribution / packaging
+*.zip
+
+# Visual Studio Code
+.vscode/*

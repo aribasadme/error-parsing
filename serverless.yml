@@ -1,0 +1,38 @@
+service: error-parsing
+
+plugins:
+  - serverless-python-requirements
+  - serverless-plugin-aws-alerts
+
+custom:
+  logGroup: ${env:LOGGROUP}
+  alerts:
+    stages:
+      - ${opt:stage, self:provider.stage}
+    topics:
+      alarm:
+        topic: ${self:service}-${opt:stage, self:provider.stage}-alerts-alarm
+        notifications:
+          - protocol: email
+            endpoint: ${env:EMAIL}
+
+
+
+provider:
+  name: aws
+  runtime: python3.10
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-3
+  deploymentBucket:	sls-deployment-bucket-${env:CI_ENV}
+  environment:
+    SNS_ARN: ${env:SNS_ARN}
+
+functions:
+  publish:
+    handler: handler.run
+    description: Parses errors and sends to SNS.
+    timeout: 10
+    events:
+      - cloudwatchLog:
+          logGroup: '${self:custom.logGroup}'
+          filter: '[ERROR]'
