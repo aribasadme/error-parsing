@@ -25,7 +25,7 @@ provider:
   region: eu-west-3
   deploymentBucket:	sls-deployment-bucket-${env:CI_ENV}
   environment:
-    SNS_ARN: ${env:SNS_ARN}
+    SNS_ARN: "arn:aws:sns:${self:provider.region}:${aws:accountId}:${self:service}-${self:provider.stage}-alerts-alarm"
 
 functions:
   publish:

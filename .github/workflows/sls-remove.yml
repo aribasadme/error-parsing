@@ -32,6 +32,5 @@ jobs:
         CI_ENV: prod
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        SNS_ARN: ${{ vars.SNS_ARN }}
         LOGGROUP: ${{ vars.LOGGROUP }}
         EMAIL: ${{ secrets.EMAIL }}
