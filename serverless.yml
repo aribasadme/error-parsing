@@ -17,7 +17,6 @@ custom:
           - protocol: email
             endpoint: ${env:EMAIL}
 
-
 provider:
   name: aws
   runtime: python3.10
@@ -41,4 +40,4 @@ functions:
     events:
       - cloudwatchLog:
           logGroup: '${self:custom.logGroup}'
-          filter: '[ERROR]'
+          filter: '"[ERROR]"'
