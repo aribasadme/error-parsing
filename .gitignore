@@ -5,5 +5,8 @@ venv/
 # Distribution / packaging
 *.zip
 
+# Test files
+*test*
+
 # Visual Studio Code
 .vscode/*
