@@ -6,31 +6,34 @@ jobs:
   sls-remove-prod:
     name: Serverless Remove Prod
     runs-on: ubuntu-latest
-    environment:
-      name: production
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/serverless/
     strategy:
       matrix:
         node-version: [18.x]
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm shrinkwrap
-    - run: npm ci
-    - name: serverless install plugins
-      uses: serverless/github-action@v3.2
-      with:
-        args: -c "serverless plugin install --name serverless-python-requirements && serverless plugin install --name serverless-plugin-aws-alerts"
-        entrypoint: /bin/sh
-    - name: serverless remove
-      uses: serverless/github-action@v3.2
-      with:
-        args: remove --stage ${{ env.CI_ENV }}
-      env:
-        CI_ENV: prod
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        LOGGROUP: ${{ vars.LOGGROUP }}
-        EMAIL: ${{ secrets.EMAIL }}
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm shrinkwrap
+      - run: npm ci
+      - name: serverless install plugins
+        uses: serverless/github-action@v3.2
+        with:
+          args: -c "cd ./serverless && serverless plugin install --name serverless-python-requirements && serverless plugin install --name serverless-plugin-aws-alerts"
+          entrypoint: /bin/sh
+      - name: serverless remove
+        uses: serverless/github-action@v3.2
+        with:
+          args: -c "cd ./serverless && remove --stage ${{ env.CI_ENV }}"
+          entrypoint: /bin/sh
+        env:
+          CI_ENV: prod
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DEPLOYMENT_BUCKET: ${{ secrets.DEPLOYMENT_BUCKET_PREFIX }}-${{ secrets.AWS_REGION }}
+          LOGGROUP: ${{ vars.LOGGROUP }}
+          EMAIL: ${{ secrets.EMAIL }}
