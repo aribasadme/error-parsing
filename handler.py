@@ -7,13 +7,13 @@ import os
 
 from botocore.exceptions import ClientError
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.getLevelName(str(os.environ["LOG_LEVEL"]).upper()))
+log = logging.getLogger(__name__)
 
 
 def logpayload(event):
-    logger.setLevel(logging.DEBUG)
-    logger.debug(event['awslogs']['data'])
+    log.setLevel(logging.DEBUG)
+    log.debug(event['awslogs']['data'])
     compressed_payload = base64.b64decode(event['awslogs']['data'])
     uncompressed_payload = gzip.decompress(compressed_payload)
     log_payload = json.loads(uncompressed_payload)
@@ -23,17 +23,17 @@ def logpayload(event):
 def error_details(payload):
     error_msg = ""
     log_events = payload['logEvents']
-    logger.debug(payload)
+    log.debug(payload)
     loggroup = payload['logGroup']
     logstream = payload['logStream']
     lambda_func_name = loggroup.split('/')
-    logger.debug(f'LogGroup: {loggroup}')
-    logger.debug(f'Logstream: {logstream}')
-    logger.debug(f'Function name: {lambda_func_name[3]}')
-    logger.debug(log_events)
+    log.debug(f'LogGroup: {loggroup}')
+    log.debug(f'Logstream: {logstream}')
+    log.debug(f'Function name: {lambda_func_name[3]}')
+    log.debug(log_events)
     for log_event in log_events:
         error_msg += log_event['message']
-    logger.debug('Message: %s' % error_msg.split("\n"))
+    log.debug('Message: %s' % error_msg.split("\n"))
     return loggroup, logstream, error_msg, lambda_func_name
 
 
@@ -57,7 +57,7 @@ def publish_message(loggroup, logstream, error_msg, lambda_func_name):
             Message=message
         )
     except ClientError as e:
-        logger.error("An error occured: %s" % e)
+        log.error("An error occured: %s" % e)
 
 
 def run(event, _):
