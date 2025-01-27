@@ -11,7 +11,7 @@ jobs:
         working-directory: ${{ github.workspace }}/serverless/
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [18.x]
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -21,12 +21,12 @@ jobs:
       - run: npm shrinkwrap
       - run: npm ci
       - name: serverless install plugins
-        uses: serverless/github-action@v4
+        uses: serverless/github-action@v3.2
         with:
           args: -c "cd ./serverless && serverless plugin install --name serverless-python-requirements && serverless plugin install --name serverless-plugin-aws-alerts"
           entrypoint: /bin/sh
       - name: serverless remove
-        uses: serverless/github-action@v4
+        uses: serverless/github-action@v3.2
         with:
           args: -c "cd ./serverless && remove --stage ${{ env.CI_ENV }}"
           entrypoint: /bin/sh
