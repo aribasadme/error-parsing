@@ -7,8 +7,8 @@ import os
 
 from botocore.exceptions import ClientError
 
-logging.basicConfig(level=logging.getLevelName(str(os.environ["LOG_LEVEL"]).upper()))
-log = logging.getLogger(__name__)
+log = logging.getLogger()
+log.setLevel(os.environ["LOG_LEVEL"])
 
 
 def logpayload(event):
