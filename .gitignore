@@ -5,6 +5,10 @@ venv/
 # Distribution / packaging
 *.zip
 
+# Terraform
+.terraform/
+local.auto.tfvars
+
 # Test files
 *test*
 
