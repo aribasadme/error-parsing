@@ -22,7 +22,7 @@ resource "aws_lambda_function" "error_parsing" {
 
   environment {
     variables = {
-      LOG_LEVEL = "DEBUG",
+      LOG_LEVEL = "INFO",
       SNS_ARN   = aws_sns_topic.alarm_topic.arn
     }
   }

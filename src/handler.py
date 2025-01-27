@@ -26,13 +26,13 @@ def error_details(payload):
     loggroup = payload['logGroup']
     logstream = payload['logStream']
     lambda_func_name = loggroup.split('/')
-    log.debug(f'LogGroup: {loggroup}')
-    log.debug(f'Logstream: {logstream}')
-    log.debug(f'Function name: {lambda_func_name[3]}')
+    log.info(f'LogGroup: {loggroup}')
+    log.info(f'Logstream: {logstream}')
+    log.info(f'Function name: {lambda_func_name[3]}')
     log.debug(log_events)
     for log_event in log_events:
         error_msg += log_event['message']
-    log.debug('Message: %s' % error_msg.split("\n"))
+    log.info('Message: %s' % error_msg.split("\n"))
     return loggroup, logstream, error_msg, lambda_func_name
 
 
