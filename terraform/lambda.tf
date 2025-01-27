@@ -3,7 +3,7 @@ resource "aws_lambda_permission" "cloudwatch_logs" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.error_parsing.function_name
   principal     = "logs.amazonaws.com"
-  source_arn    = aws_cloudwatch_log_group.log_group.arn
+  source_arn    = data.aws_cloudwatch_log_group.log_group.arn
 }
 
 resource "aws_lambda_function" "error_parsing" {
