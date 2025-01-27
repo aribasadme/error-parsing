@@ -6,13 +6,13 @@ plugins:
 
 custom:
   logGroup: ${env:LOGGROUP}
-  snsARN: "arn:aws:sns:${aws:region}:${aws:accountId}:${self:service}-${self:provider.stage}-alerts-alarm"
+  snsARN: "arn:aws:sns:${aws:region}:${aws:accountId}:${env:SNS_TOPIC_NAME}"
   alerts:
     stages:
       - ${opt:stage, self:provider.stage}
     topics:
       alarm:
-        topic: ${self:service}-${opt:stage, self:provider.stage}-alerts-alarm
+        topic: ${env:SNS_TOPIC_NAME}
         notifications:
           - protocol: email
             endpoint: ${env:EMAIL}
@@ -27,7 +27,6 @@ provider:
     maxPreviousDeploymentArtifacts: 1
   environment:
     SNS_ARN: ${self:custom.snsARN}
-    LOG_LEVEL: INFO
   iamRoleStatements:
     - Effect: "Allow"
       Action:
