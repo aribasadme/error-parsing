@@ -39,3 +39,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           LOGGROUP: ${{ vars.LOGGROUP }}
           EMAIL: ${{ secrets.EMAIL }}
+          SNS_TOPIC_NAME: ${{ vars.SNS_TOPIC_NAME }}
