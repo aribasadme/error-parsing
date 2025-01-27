@@ -1,5 +1,0 @@
-{
-    "name": "error-parsing",
-    "description": "AWS Lambda function that parses CloudWatch logs to find errors and sends to SNS.",
-    "version": "0.1.1"
-}

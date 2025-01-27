@@ -11,7 +11,7 @@ log = logging.getLogger()
 
 
 def logpayload(event):
-    log.setLevel(logging.DEBUG)
+    log.setLevel(os.environ['LOG_LEVEL'])
     log.debug(event['awslogs']['data'])
     compressed_payload = base64.b64decode(event['awslogs']['data'])
     uncompressed_payload = gzip.decompress(compressed_payload)

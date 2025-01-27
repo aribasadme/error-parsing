@@ -15,6 +15,7 @@ env:
   CI_ENVIRONMENT_NAME: prod
   TF_LOG: INFO
   TF_VAR_email: ${{ secrets.EMAIL }}
+  TF_VAR_log_group_name: ${{ vars.LOGGROUP }}
   TF_VAR_sns_topic_name: ${{ vars.SNS_TOPIC_NAME }}
 
 jobs:
