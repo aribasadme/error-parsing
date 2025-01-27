@@ -1,10 +1,10 @@
 import base64
-import boto3
 import gzip
 import json
 import logging
 import os
 
+import boto3
 from botocore.exceptions import ClientError
 
 log = logging.getLogger()
