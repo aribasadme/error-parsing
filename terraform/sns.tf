@@ -1,12 +1,7 @@
 resource "aws_sns_topic" "alarm_topic" {
   name = var.sns_topic_name
 
-  tags = {
-    Environment            = local.env
-    Product                = local.service_name
-    Terraform              = "true"
-    "Terraform Repository" = var.repository
-  }
+  tags = local.tf_common_tags
 }
 
 resource "aws_sns_topic_subscription" "email_subscription" {
