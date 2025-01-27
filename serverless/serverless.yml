@@ -7,19 +7,10 @@ plugins:
 custom:
   logGroup: ${env:LOGGROUP}
   snsARN: "arn:aws:sns:${aws:region}:${aws:accountId}:${env:SNS_TOPIC_NAME}"
-  alerts:
-    stages:
-      - ${opt:stage, self:provider.stage}
-    topics:
-      alarm:
-        topic: ${env:SNS_TOPIC_NAME}
-        notifications:
-          - protocol: email
-            endpoint: ${env:EMAIL}
 
 provider:
   name: aws
-  runtime: python3.10
+  runtime: python3.12
   stage: ${opt:stage, 'dev'}
   region: eu-west-3
   deploymentBucket:

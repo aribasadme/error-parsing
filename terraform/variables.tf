@@ -1,3 +1,4 @@
+variable "email" { type = string }
 variable "sns_topic_name" { type = string }
 
 ### Variables provided per default by the Makefile
