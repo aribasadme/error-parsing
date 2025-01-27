@@ -23,7 +23,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-3
   deploymentBucket:
-    name: ${env:DEPLOYMENT_BUCKET}
+    name: sls-deployments-${aws:accountId}-${self:provider.region}
     maxPreviousDeploymentArtifacts: 1
   environment:
     SNS_ARN: ${self:custom.snsARN}
